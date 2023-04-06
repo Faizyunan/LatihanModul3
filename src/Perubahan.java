@@ -1,67 +1,60 @@
 public class Perubahan {
-    private static final int MAX_SIZE = 1000;
-    private int top;
-    private String[] stackArray;
+    static class Stack {
+        int top = -1;
+        String[] arr = new String[100];
 
-    public Perubahan() {
-        top = -1;
-        stackArray = new String[MAX_SIZE];
-    }
-
-    public void push(String value) {
-        if (top < MAX_SIZE - 1) {
-            stackArray[++top] = value;
+        void push(String value) {
+            arr[++top] = value;
         }
-    }
 
-    public String pop() {
-        if (top >= 0) {
-            return stackArray[top--];
-        }
-        return null;
-    }
-
-    public String peek() {
-        if (top >= 0) {
-            return stackArray[top];
-        }
-        return null;
-    }
-
-    public boolean isEmpty() {
-        return top < 0;
-    }
-
-    public int search(String value) {
-        for (int i = top; i >= 0; i--) {
-            if (stackArray[i].equals(value)) {
-                return top - i + 1;
+        String pop() {
+            if (top < 0) {
+                return null;
             }
+            String value = arr[top];
+            arr[top--] = null;
+            return value;
         }
-        return -1;
+
+        String peek() {
+            if (top < 0) {
+                return null;
+            }
+            return arr[top];
+        }
+
+        boolean empty() {
+            return top == -1;
+        }
+
+        int search(String value) {
+            for (int i = top; i >= 0; i--) {
+                if (arr[i].equals(value)) {
+                    return top - i + 1;
+                }
+            }
+            return -1;
+        }
     }
 
     public static void main(String[] args) {
-        Perubahan st = new Perubahan();
+        Stack at = new Stack();
 
-        st.push("Aku");
-        st.push("Anak");
-        st.push("Indonesia");
+        at.push("Aku");
+        at.push("Anak");
+        at.push("Indonesia");
 
-        System.out.println("Next: " + st.peek());
+        System.out.println("Next : " + at.peek());
+        at.push("Raya");
+        System.out.println(at.pop());
+        at.push("!");
 
-        st.push("Raya");
-        System.out.println(st.pop());
-
-        st.push("!");
-
-        int count = st.search("Aku");
+        int count = at.search("Aku");
         while (count != -1 && count > 1) {
-            st.pop();
+            at.pop();
             count--;
         }
-
-        System.out.println(st.pop());
-        System.out.println(st.isEmpty());
+        System.out.println(at.pop());
+        System.out.println(at.empty());
     }
 }
